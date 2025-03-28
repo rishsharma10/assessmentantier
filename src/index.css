@@ -7,7 +7,61 @@ body {
   -moz-osx-font-smoothing: grayscale;
 }
 
+/* h1,h2,h3,h4,h5,p{
+  margin: 0;
+} */
 code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
+}
+
+input {
+  box-shadow: none;
+  outline: none;
+}
+
+input:focus {
+  box-shadow: none !important;
+  outline: none;
+}
+.btn-primary{
+  background:rgb(61, 59, 59) ;
+  border:none;
+}
+.btn-primary:hover{
+  background:rgb(40, 39, 39) ;
+}
+
+.product-card {
+  box-shadow: rgba(50, 50, 93, 0.25) 0px 13px 27px -5px, rgba(0, 0, 0, 0.3) 0px 8px 16px -8px;
+  border: 0 !important;
+
+  .product-img {
+    padding: 20px;
+    background: rgba(184, 182, 176, 0.423);
+    width: 100%;
+    height: 250px;
+    border-radius: 8px;
+
+    img {
+      width: 100%;
+      height: 100%;
+      border-radius: 8px;
+      object-fit: cover;
+    }
+  }
+}
+.product-gallery{
+  padding: 20px;
+  background: rgba(184, 182, 176, 0.423);
+  border-radius: 8px;
+  width: 100%;
+  height: 500px;
+
+  img {
+    width: 100%;
+    height: 100%;
+    border-radius: 8px;
+    object-fit: cover;
+  }
 }
