@@ -54,6 +54,7 @@ const EditProduct: React.FC = () => {
             try {
                 dispatch(updateProduct(product))
                 navigate(`/product/${id}/details`)
+                toast.success("Updated successfully")
             } catch (error: any) {
                 alert(JSON.stringify(error?.message))
             }
