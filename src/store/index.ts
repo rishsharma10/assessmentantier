@@ -1,6 +1,6 @@
 import { configureStore } from "@reduxjs/toolkit";
 import { persistStore, persistReducer } from "redux-persist";
-import storage from "redux-persist/lib/storage"; // LocalStorage for persistence
+import storage from "redux-persist/lib/storage";
 import { apiServices } from "../../src/services/apiServices";
 import authReducer from "../../src/features/auth/authSlice";
 import productReducer from "../../src/features/products/productSlice";
@@ -20,9 +20,9 @@ const persistedProductReducer = persistReducer(productPersistConfig, productRedu
 
 export const store = configureStore({
   reducer: {
-    auth: persistedAuthReducer, // Persisted Auth Reducer
-    product: persistedProductReducer, // Persisted Product Reducer
-    [apiServices.reducerPath]: apiServices.reducer, // API Reducer
+    auth: persistedAuthReducer,
+    product: persistedProductReducer,
+    [apiServices.reducerPath]: apiServices.reducer,
   },
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware({
@@ -30,7 +30,7 @@ export const store = configureStore({
     }).concat(apiServices.middleware),
 });
 
-export const persistor = persistStore(store); // Persistor for Redux Persist
+export const persistor = persistStore(store);
 
 export type RootState = ReturnType<typeof store.getState>;
 export type AppDispatch = typeof store.dispatch;

@@ -4,8 +4,6 @@ import { Link, useNavigate, useParams } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { AppDispatch } from "../store";
 import { API_BASE_URL, useUpdateProductMutation } from "../services/apiServices";
-import { updateProduct } from "../features/products/productSlice";
-// import apiRequest from "../services/apiServices";
 
 const EditProduct: React.FC = () => {
     const [product, setProduct] = useState<any>({

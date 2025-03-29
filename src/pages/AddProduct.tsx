@@ -1,15 +1,14 @@
 import React, { useState } from "react";
-import { ProductDetail } from "../interface/Product";
 import { Link, useNavigate } from "react-router-dom";
 import { useAddProductMutation } from "../services/apiServices";
 import { useDispatch } from "react-redux";
 import { AppDispatch } from "../store";
 import { sliceAddProduct } from "../features/products/productSlice";
-// import apiRequest from "../services/apiServices";
 
 const AddProduct: React.FC = () => {
     const navigate = useNavigate();
-        const dispatch = useDispatch<AppDispatch>();
+    const [addProduct] = useAddProductMutation();
+    const dispatch = useDispatch<AppDispatch>();
     const [product, setProduct] = useState<any>({
         title: "",
         description: "",
@@ -19,19 +18,17 @@ const AddProduct: React.FC = () => {
         brand: "",
     });
 
-    // Handle form input change
     const handleChange = (e: any) => {
         const { name, value } = e.target;
         setProduct({ ...product, [name]: value });
     };
 
-    const [addProduct] = useAddProductMutation();
-  
+
     const handleSubmit = async (e: React.FormEvent) => {
-      e.preventDefault();
-    let apiRes:any =  await addProduct(product);
-    dispatch(sliceAddProduct(apiRes?.data))
-    navigate(`/product/list/1`)
+        e.preventDefault();
+        let apiRes: any = await addProduct(product);
+        dispatch(sliceAddProduct(apiRes?.data))
+        navigate(`/product/list/1`)
     };
 
     return (

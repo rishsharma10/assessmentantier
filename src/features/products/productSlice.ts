@@ -24,7 +24,7 @@ export const fetchProducts = createAsyncThunk<Array<Product>, void, { rejectValu
     "product/fetchProducts",
     async (_, { rejectWithValue }) => {
       try {
-        const response = await fetch(`${API_BASE_URL}products`);
+        const response = await fetch(`${API_BASE_URL}products?limit=12&skip=10`);
         const data = await response.json();
         return data;
       } catch (error: any) {
@@ -42,9 +42,9 @@ const productSlice = createSlice({
     },
     addProduct: (state, action: PayloadAction<Product>) => {
         if (Array.isArray(state.products)) {
-            state.products.push(action.payload); // ✅ Works as expected
+            state.products.push(action.payload);
           } else {
-            state.products = [action.payload]; // ✅ Ensure it's always an array
+            state.products = [action.payload];
           }
     },
     updateProduct: (state, action: PayloadAction<Product>) => {

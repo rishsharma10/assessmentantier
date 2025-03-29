@@ -24,12 +24,22 @@ input:focus {
   box-shadow: none !important;
   outline: none;
 }
-.btn-primary{
-  background:rgb(61, 59, 59) ;
-  border:none;
+
+.btn-primary {
+  background: rgb(61, 59, 59) !important;
+  border: none;
 }
-.btn-primary:hover{
-  background:rgb(40, 39, 39) ;
+
+.nav-item {
+  border-left: 2px solid transparent;
+}
+
+.active {
+  border-left: 2px solid red;
+}
+
+.btn-primary:hover {
+  background: rgb(40, 39, 39);
 }
 
 .product-card {
@@ -51,7 +61,8 @@ input:focus {
     }
   }
 }
-.product-gallery{
+
+.product-gallery {
   padding: 20px;
   background: rgba(184, 182, 176, 0.423);
   border-radius: 8px;
