@@ -11,15 +11,15 @@ const Product = () => {
 
     const { error, products: data }: any = useSelector((state: RootState) => state.product);
     const { userInfo } = useSelector((state: RootState) => state.auth);
-    const navigate = useNavigate();
-    const dispatch = useDispatch<AppDispatch>();
+    // const navigate = useNavigate();
+    // const dispatch = useDispatch<AppDispatch>();
 
-    React.useEffect(() => {
-        if (!userInfo?.accessToken) {
-            navigate("/login");
-        }
-        dispatch(fetchProducts());
-    }, [dispatch, data.length, userInfo, navigate]);
+    // React.useEffect(() => {
+    //     if (!userInfo?.accessToken) {
+    //         navigate("/login");
+    //     }
+    //     // dispatch(fetchProducts());
+    // }, [dispatch, data.length, userInfo, navigate]);
 
     return (
         <section>
