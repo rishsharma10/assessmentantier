@@ -1,25 +1,13 @@
 import React from 'react'
-import { Link, useNavigate } from 'react-router-dom'
+import { Link } from 'react-router-dom'
 import { ProductDetail } from '../interface/Product'
 import ProductCard from '../components/ProductCard'
 import { useSelector } from 'react-redux'
-import { AppDispatch, RootState } from '../store'
-import { useDispatch } from 'react-redux'
-import { fetchProducts } from '../features/products/productSlice'
+import { RootState } from '../store'
 
 const Product = () => {
 
     const { error, products: data }: any = useSelector((state: RootState) => state.product);
-    const { userInfo } = useSelector((state: RootState) => state.auth);
-    // const navigate = useNavigate();
-    // const dispatch = useDispatch<AppDispatch>();
-
-    // React.useEffect(() => {
-    //     if (!userInfo?.accessToken) {
-    //         navigate("/login");
-    //     }
-    //     // dispatch(fetchProducts());
-    // }, [dispatch, data.length, userInfo, navigate]);
 
     return (
         <section>

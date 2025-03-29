@@ -70,6 +70,7 @@ const authSlice = createSlice({
                 state.isLoading = false;
             })
             .addCase(loginUser.rejected, (state, action) => {
+                debugger
                 state.isLoading = false;
                 state.error = action.payload as string;
             });

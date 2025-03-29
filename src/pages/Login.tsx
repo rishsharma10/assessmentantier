@@ -17,13 +17,21 @@ const Login: React.FC = () => {
       username,
       password
     }
-    dispatch(loginUser(payload));
-    toast.success("Login successfully")
+    let data = await dispatch(loginUser(payload));
+    console.log(data);
+    
+    if(data?.payload?.message){
+      toast.error(data?.payload?.message)
+    }else{
+      toast.success("Login successfully")
+    }
   };
 
   if (userInfo?.accessToken) {
     navigate("/")
   }
+  console.log(error);
+  
 
   return (
     <div className="d-flex justify-content-center align-items-center vh-100 bg-light">
