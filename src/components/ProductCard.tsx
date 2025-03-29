@@ -1,12 +1,15 @@
 import React from 'react'
 import { ProductDetail } from '../interface/Product'
+import placeholder from "../../src/assests/placeholder.jpg"
 import { Link } from 'react-router-dom'
 
 const ProductCard = (props:ProductDetail) => {
+    console.log(props,"propsppspspps");
+    
     return <div className="col-12 col-md-3 mt-3 placeholder-glow">
         <div className="card p-3 h-100 product-card">
-            <div className='product-img mb-3'>
-                <img src={props?.images[0]} alt="img" loading='lazy' />
+             <div className='product-img mb-3'>
+                <img src={props?.thumbnail ? props?.thumbnail : placeholder} alt="img" loading='lazy' />
             </div>
             <h4 className='fw-bold'>${props?.price}</h4>
             <h6 className='fw-bold'>{props?.title}</h6>

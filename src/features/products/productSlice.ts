@@ -2,7 +2,8 @@ import { createAsyncThunk, createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { API_BASE_URL } from "../../services/apiServices";
 import { ProductDetail } from "../../interface/Product";
 
-interface Product extends ProductDetail {
+interface Product {
+    products:Array<ProductDetail>
   id: number;
   name: string;
 }
@@ -26,12 +27,13 @@ export const fetchProducts = createAsyncThunk<Array<Product>, void, { rejectValu
       try {
         const response = await fetch(`${API_BASE_URL}products?limit=12&skip=10`);
         const data = await response.json();
-        return data;
+        return data?.products;
       } catch (error: any) {
         return rejectWithValue(error.message || "Something went wrong");
       }
     }
   );
+  
 
 const productSlice = createSlice({
   name: "product",
@@ -41,10 +43,11 @@ const productSlice = createSlice({
       state.products = action.payload;
     },
     addProduct: (state, action: PayloadAction<Product>) => {
+        debugger
         if (Array.isArray(state.products)) {
             state.products.push(action.payload);
           } else {
-            state.products = [action.payload];
+            state.products = [action.payload,...state.products];
           }
     },
     updateProduct: (state, action: PayloadAction<Product>) => {
@@ -62,6 +65,7 @@ const productSlice = createSlice({
         state.error = null;
       })
       .addCase(fetchProducts.fulfilled, (state, action: PayloadAction<Array<Product>>) => {
+        debugger
         state.loading = false;
         state.products = action.payload;
       })

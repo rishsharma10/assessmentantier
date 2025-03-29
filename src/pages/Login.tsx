@@ -3,6 +3,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { loginUser } from "../features/auth/authSlice";
 import { AppDispatch, RootState } from "../store";
 import { useNavigate } from "react-router-dom";
+import { toast } from "react-toastify";
 
 const Login: React.FC = () => {
   const { isLoading, error, userInfo } = useSelector((state: RootState) => state.auth);
@@ -18,6 +19,7 @@ const Login: React.FC = () => {
       password
     }
     dispatch(loginUser(payload));
+    toast.success("Login successfully")
   };
 
   if (userInfo?.accessToken) {

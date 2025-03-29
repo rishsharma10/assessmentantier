@@ -4,6 +4,7 @@ import { Link, useNavigate, useLocation } from "react-router-dom";
 import { AppDispatch, RootState } from "../store";
 import { logout } from "../features/auth/authSlice";
 import { useSelector } from "react-redux";
+import { toast } from "react-toastify";
 
 const SidebarLayout: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const location = useLocation();
@@ -16,6 +17,7 @@ const SidebarLayout: React.FC<{ children: React.ReactNode }> = ({ children }) =>
   const handleLogout = () => {
     dispatch(logout());
     navigate("/login");
+    toast.success("Logout successfully")
   };
 
   return (

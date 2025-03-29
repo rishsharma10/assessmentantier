@@ -8,25 +8,21 @@ import { useDispatch } from 'react-redux'
 import { fetchProducts } from '../features/products/productSlice'
 
 const Product = () => {
-   
+
     const { error, products: data }: any = useSelector((state: RootState) => state.product);
     const { userInfo } = useSelector((state: RootState) => state.auth);
     const navigate = useNavigate();
     const dispatch = useDispatch<AppDispatch>();
 
-    const initData = async () => {
-        dispatch(fetchProducts());
-    };
-
-    if (!userInfo?.accessToken) {
-        navigate("/login")
-    }
-
     React.useEffect(() => {
-        initData()
-    }, [])
-    
-   
+        if (!userInfo?.accessToken) {
+            navigate("/login");
+        }
+        else if (data.length === 0) {
+            dispatch(fetchProducts());
+        }
+    }, [dispatch, data.length, userInfo, navigate]);
+
     return (
         <section>
             <div className="container">
@@ -37,9 +33,12 @@ const Product = () => {
                     </div>
                 </div>
                 {error ? <span>Failed to fetch data</span> :
-                <div className="row mt-4">
-                    {Array.isArray(data?.products) && data?.products.map((res:ProductDetail,index:number) => <ProductCard {...res} key={res.id}/>)}
-                </div>}
+                    <div className="row mt-4">
+                        {Array.isArray(data) &&
+                            data.slice().reverse().map((res: ProductDetail, index: number) => (
+                                <ProductCard {...res} key={res.id} />
+                            ))}
+                    </div>}
             </div>
         </section>
     )

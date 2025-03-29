@@ -1,4 +1,4 @@
-import React, { lazy } from 'react'
+import React, { lazy, useEffect } from 'react'
 import { useSelector } from 'react-redux'
 import { AppDispatch, RootState } from '../store'
 import { useNavigate } from 'react-router-dom'
@@ -13,17 +13,14 @@ const Dashboard = () => {
     const navigate = useNavigate();
     const dispatch = useDispatch<AppDispatch>();
 
-    const initData = async () => {
-        dispatch(fetchProducts());
-    };
-
-    if (!userInfo?.accessToken) {
-        navigate("/login")
-    }
-
-    React.useEffect(() => {
-        initData()
-    }, [])
+    useEffect(() => {
+        if (!userInfo?.accessToken) {
+            navigate("/login");
+        } 
+        else if (data.length === 0) {
+            dispatch(fetchProducts());
+        }
+    }, [dispatch, data.length, userInfo, navigate]);
     return (
         <section>
             <div className="container">
@@ -34,7 +31,7 @@ const Dashboard = () => {
                 </div>
                 {error ? <span>Failed to fetch data</span> :
                 <div className="card p-4 rounded-4 mt-3">
-                    <DashBoardGraph data={data.products} />
+                    <DashBoardGraph data={data} />
                 </div>}
             </div>
         </section>

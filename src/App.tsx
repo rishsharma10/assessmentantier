@@ -3,6 +3,7 @@ import { Provider } from "react-redux";
 import { RootState, store } from "../src/store";
 import { lazy } from "react";
 import { useSelector } from "react-redux";
+import { ToastContainer } from "react-toastify";
 const ProductDetails = lazy(() => import("./pages/ProductDetails"));
 const AddProduct = lazy(() => import("./pages/AddProduct"));
 const EditProduct = lazy(() => import("./pages/EditProduct"));
@@ -30,6 +31,7 @@ const App = () => (
         </Route>
       </Routes>
     </Router>
+    <ToastContainer />
   </Provider>
 );
 
