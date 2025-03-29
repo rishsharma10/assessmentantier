@@ -8,7 +8,7 @@ import { toast } from "react-toastify";
 
 const SidebarLayout: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const location = useLocation();
-  const {pathname} = location
+  const { pathname } = location
   const userData = useSelector((state: RootState) => state.auth.userInfo);
   const [toggle, setToggle] = useState(false)
   const navigate = useNavigate();

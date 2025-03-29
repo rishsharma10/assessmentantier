@@ -20,7 +20,7 @@ export const validateProduct = (product: any): string | null => {
 
 const AddProduct: React.FC = () => {
     const navigate = useNavigate();
-    const { error, products: data }: any = useSelector((state: RootState) => state.product);
+    const { products: data }: any = useSelector((state: RootState) => state.product);
     const [addProduct] = useAddProductMutation();
     const dispatch = useDispatch<AppDispatch>();
     const [product, setProduct] = useState<any>({

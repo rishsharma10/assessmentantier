@@ -10,11 +10,9 @@ export interface Product extends ProductDetail {
 export const apiServices = createApi({
   reducerPath: "api",
   baseQuery: fetchBaseQuery({ baseUrl: API_BASE_URL }),
-  tagTypes: ["Product"],
   endpoints: (builder) => ({
     getProducts: builder.query<Product[], void>({
       query: () => "",
-      providesTags: ["Product"],
     }),
     addProduct: builder.mutation<Product, { title: string }>({
       query: (newProduct) => ({
@@ -22,7 +20,6 @@ export const apiServices = createApi({
         method: "POST",
         body: newProduct,
       }),
-      invalidatesTags: ["Product"],
     }),
     updateProduct: builder.mutation<Product, Product>({
       query: (updatedProduct) => ({
@@ -30,14 +27,12 @@ export const apiServices = createApi({
         method: "PUT",
         body: JSON.stringify(updatedProduct),
       }),
-      invalidatesTags: ["Product"],
     }),
     deleteProduct: builder.mutation<{ success: boolean }, number>({
       query: (id) => ({
         url: `/products/${id}`,
         method: "DELETE",
       }),
-      invalidatesTags: ["Product"],
     }),
   }),
 });

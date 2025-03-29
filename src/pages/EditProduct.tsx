@@ -1,9 +1,7 @@
 import React, { useState } from "react";
-import { ProductDetail } from "../interface/Product";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { AppDispatch, RootState } from "../store";
-import { API_BASE_URL, useUpdateProductMutation } from "../services/apiServices";
 import { useSelector } from "react-redux";
 import { updateProduct } from "../features/products/productSlice";
 import { validateProduct } from "./AddProduct";
@@ -24,22 +22,16 @@ const EditProduct: React.FC = () => {
     const { id } = useParams()
     const navigate = useNavigate();
     const dispatch = useDispatch<AppDispatch>();
-    const [loading, setLoading] = useState(false)
-    const { error, products: data }: any = useSelector((state: RootState) => state.product);
-    console.log(data, 'datatatattatata');
+    const { products: data }: any = useSelector((state: RootState) => state.product);
 
     const initDetails = async () => {
         debugger
         try {
-            setLoading(true)
             let apiRes = Array.isArray(data) && data.find((res: any) => Number(res.id) === Number(id))
-            console.log(apiRes, "apiresss");
-
             setProduct(apiRes)
         } catch (error) {
 
         } finally {
-            setLoading(false)
         }
     }
 
@@ -66,9 +58,6 @@ const EditProduct: React.FC = () => {
                 alert(JSON.stringify(error?.message))
             }
         }
-
-
-
     };
 
     React.useEffect(() => {
@@ -88,31 +77,31 @@ const EditProduct: React.FC = () => {
                     <form onSubmit={handleSubmit} className="row g-3">
                         <div className="col-md-6">
                             <label className="form-label">Title</label>
-                            <input type="text" placeholder="Enter title" className="form-control p-2" name="title" value={product.title} onChange={handleChange}  />
+                            <input type="text" placeholder="Enter title" className="form-control p-2" name="title" value={product.title} onChange={handleChange} />
                         </div>
 
                         <div className="col-md-6">
                             <label className="form-label">Description</label>
-                            <input placeholder="Enter Description" className="form-control p-2" name="description" value={product.description} onChange={handleChange}  />
+                            <input placeholder="Enter Description" className="form-control p-2" name="description" value={product.description} onChange={handleChange} />
                         </div>
 
                         <div className="col-md-6">
                             <label className="form-label">Stock</label>
-                            <input placeholder="Enter Stock" type="number" className="form-control p-2" name="stock" value={product.stock} onChange={handleChange}  />
+                            <input placeholder="Enter Stock" type="number" className="form-control p-2" name="stock" value={product.stock} onChange={handleChange} />
                         </div>
 
                         <div className="col-md-6">
                             <label className="form-label">Category</label>
-                            <input placeholder="Enter category" type="text" className="form-control p-2" name="category" value={product.category} onChange={handleChange}  />
+                            <input placeholder="Enter category" type="text" className="form-control p-2" name="category" value={product.category} onChange={handleChange} />
                         </div>
                         <div className="col-md-6">
                             <label className="form-label">Price ($)</label>
-                            <input placeholder="Enter Price" type="number" className="form-control p-2" name="price" value={product.price} onChange={handleChange}  />
+                            <input placeholder="Enter Price" type="number" className="form-control p-2" name="price" value={product.price} onChange={handleChange} />
                         </div>
 
                         <div className="col-md-6">
                             <label className="form-label">Discount (%)</label>
-                            <input placeholder="Enter Discount" type="number" className="form-control p-2" name="discountPercentage" value={product.discountPercentage} onChange={handleChange}  />
+                            <input placeholder="Enter Discount" type="number" className="form-control p-2" name="discountPercentage" value={product.discountPercentage} onChange={handleChange} />
                         </div>
                         <div className="col-12 mt-5">
                             <button type="submit" className="btn btn-primary">Update</button>
@@ -121,7 +110,6 @@ const EditProduct: React.FC = () => {
                 </div>
             </div>
         </section>
-
     );
 };
 

@@ -1,5 +1,5 @@
 import React from 'react';
-import {Area, XAxis, YAxis, Tooltip, ResponsiveContainer, CartesianGrid, AreaChart } from 'recharts';
+import { Area, XAxis, YAxis, Tooltip, ResponsiveContainer, CartesianGrid, AreaChart } from 'recharts';
 
 const DashBoardGraph = ({ data }: any) => {
     return <ResponsiveContainer width="100%" height={400}>

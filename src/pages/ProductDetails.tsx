@@ -2,7 +2,6 @@ import React, { useState } from 'react'
 import { Link, useNavigate, useParams } from 'react-router-dom'
 import { ProductDetail } from '../interface/Product'
 import placeholder from "../../src/assests/placeholder.jpg"
-import { API_BASE_URL, useDeleteProductMutation } from '../services/apiServices'
 import { useDispatch } from 'react-redux'
 import { AppDispatch, RootState } from '../store'
 import { useSelector } from 'react-redux'
@@ -10,8 +9,7 @@ import { deleteProduct } from '../features/products/productSlice'
 
 const ProductDetails = () => {
     const { id } = useParams()
-    const { error, products: data }: any = useSelector((state: RootState) => state.product);
-    const { userInfo } = useSelector((state: RootState) => state.auth);
+    const { products: data }: any = useSelector((state: RootState) => state.product);
     const navigate = useNavigate();
     const dispatch = useDispatch<AppDispatch>();
     const [state, setState] = useState<any>({} as ProductDetail)
@@ -28,12 +26,9 @@ const ProductDetails = () => {
             setLoading(false)
         }
     }
-    // const [deleteProduct] = useDeleteProductMutation();
     const handleDelete = async () => {
         const isConfirmed = window.confirm("Are you sure you want to delete this product?");
-        
-        if (!isConfirmed) return; // Stop execution if user cancels
-    
+        if (!isConfirmed) return;
         try {
             dispatch(deleteProduct(Number(id)));
             navigate(`/product/list/1`);
@@ -41,8 +36,7 @@ const ProductDetails = () => {
             console.error("Error deleting product:", error);
         }
     };
-    
-    console.log(state, 'statetettet');
+
 
     React.useEffect(() => {
         initDetails()
@@ -80,7 +74,6 @@ const ProductDetails = () => {
                             <p><strong>SKU:</strong> {state?.sku ?? "0CHEHE"}</p>
                             <p><strong>Return Policy:</strong> {state?.returnPolicy ?? "2 days"}</p>
                             <p><strong>Shipping:</strong> {state?.shippingInformation ?? "3 days"}</p>
-                            {/* <p className='text-capitalize'><strong>Tags:</strong> {state?.tags[0]}</p> */}
                             <p><strong>Availability:</strong> <span className="text-danger">{state?.availabilityStatus ?? "available"}</span></p>
 
                             <div className="d-flex align-items-center">
