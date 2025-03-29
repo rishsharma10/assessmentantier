@@ -11,7 +11,6 @@ const Login: React.FC = () => {
   const dispatch = useDispatch<AppDispatch>();
   const [username, setUsername] = useState<string>('emilys');
   const [password, setPassword] = useState<string>('emilyspass');
-
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     const payload = {
