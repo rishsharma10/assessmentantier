@@ -1,37 +1,28 @@
 import { useState } from "react";
-import apiRequest from "../services/apiServices";
+import { useDispatch, useSelector } from "react-redux";
+import { loginUser } from "../features/auth/authSlice";
+import { AppDispatch, RootState } from "../store";
+import { useNavigate } from "react-router-dom";
 
 const Login: React.FC = () => {
+  const { isLoading, error, userInfo } = useSelector((state: RootState) => state.auth);
+  const navigate = useNavigate();
+  const dispatch = useDispatch<AppDispatch>();
   const [username, setUsername] = useState<string>('emilys');
   const [password, setPassword] = useState<string>('emilyspass');
-  const [loading, setLoading] = useState<boolean>(false);
-  const [error, setError] = useState<string | null>(null);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    setLoading(true);
-    setError(null);
-    if (!username?.trim()) {
-      return setError(`Please enter username`)
-    }
-    if (!password?.trim()) {
-      return setError(`Please enter password`)
-    }
     const payload = {
       username,
       password
     }
-    try {
-      let apiRes = await apiRequest("auth/login", "POST", payload)
-      console.log(apiRes)
-    } catch (error) {
-      setError(JSON.stringify(error))
-      setLoading(false)
-    } finally {
-
-    }
-
+    dispatch(loginUser(payload));
   };
+
+  if (userInfo?.accessToken) {
+    navigate("/")
+  }
 
   return (
     <div className="d-flex justify-content-center align-items-center vh-100 bg-light">
@@ -61,8 +52,8 @@ const Login: React.FC = () => {
               required
             />
           </div>
-          <button className="btn btn-primary w-100 mt-3" type="submit" disabled={loading}>
-            {loading ? "Logging in..." : "Login"}
+          <button className="btn btn-primary w-100 mt-3" type="submit" disabled={isLoading}>
+            {isLoading ? "Logging in..." : "Login"}
           </button>
         </form>
       </div>

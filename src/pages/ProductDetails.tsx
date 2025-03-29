@@ -1,42 +1,52 @@
 import React, { useState } from 'react'
-import { Link, useParams } from 'react-router-dom'
-import apiRequest from '../services/apiServices'
+import { Link, useNavigate, useParams } from 'react-router-dom'
 import { ProductDetail } from '../interface/Product'
+import { API_BASE_URL, useDeleteProductMutation } from '../services/apiServices'
+import { useDispatch } from 'react-redux'
+import { AppDispatch } from '../store'
 
 const ProductDetails = () => {
     const { id } = useParams()
+    const navigate = useNavigate();
+        const dispatch = useDispatch<AppDispatch>();
     const [state, setState] = useState<any>({} as ProductDetail)
+    const [loading, setLoading] = useState(false)
     const initDetails = async () => {
         try {
-            let apiRes = await apiRequest(`products/${Number(id)}`, "GET")
-            setState(apiRes)
+            setLoading(true)
+            let apiRes = await fetch(`${API_BASE_URL}products/${Number(id)}`)
+            let result = await apiRes.json()
+            setState(result)
         } catch (error) {
 
+        } finally {
+            setLoading(false)
         }
     }
+    const [deleteProduct] = useDeleteProductMutation();
     const handleDelete = async () => {
         try {
-            let apiRes = await apiRequest(`products/${Number(id)}`, "DELETE")
-            // setState(apiRes)
+             await deleteProduct(Number(id));
+            // dispatch(deleteProduct(Number(id)))
+            navigate(`/product/list/1`)
         } catch (error) {
 
         }
     }
-    console.log(state, "statestate");
-
+      
     React.useEffect(() => {
         initDetails()
     }, [id])
     return (
         <section>
-            <div className="container mt-4">
+            {!loading ? <div className="container mt-4">
                 <div className="card p-4 rounded-4">
                     <div className="d-flex justify-content-between align-items-center mb-3">
                         <h3 className="m-0">Product Details</h3>
                         <div className='d-flex gap-2'>
-                        <Link to="/product/list/1"><button className="btn btn-primary">⬅ Back</button></Link>
-                        <Link to={`/product/${id}/edit`}><button className="btn btn-warning">Edit</button></Link>
-                        <button onClick={handleDelete} className="btn btn-danger">Delete</button>
+                            <Link to="/product/list/1"><button className="btn btn-primary">⬅ Back</button></Link>
+                            <Link to={`/product/${id}/edit`}><button className="btn btn-warning">Edit</button></Link>
+                            <button onClick={handleDelete} className="btn btn-danger">Delete</button>
                         </div>
                     </div>
                 </div>
@@ -73,13 +83,13 @@ const ProductDetails = () => {
                 </div>
 
                 <div className="card p-4 rounded-4 mt-5">
-                    {Array.isArray(state?.reviews) && state?.reviews.map((res:any,index:number) => <div className="border my-1 p-3 rounded-4">
+                    {Array.isArray(state?.reviews) && state?.reviews.map((res: any, index: number) => <div className="border my-1 p-3 rounded-4">
                         <strong>{res?.reviewerName}</strong> <small className="text-muted">- {(res?.date)}</small>
                         <p>{res?.comment}</p>
                     </div>)}
-                    
+
                 </div>
-            </div>
+            </div> : "Loading..."}
         </section >
     )
 }

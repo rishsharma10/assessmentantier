@@ -1,10 +1,16 @@
 import React, { useState } from "react";
 import { ProductDetail } from "../interface/Product";
-import { Link } from "react-router-dom";
-import apiRequest from "../services/apiServices";
+import { Link, useNavigate } from "react-router-dom";
+import { useAddProductMutation } from "../services/apiServices";
+import { useDispatch } from "react-redux";
+import { AppDispatch } from "../store";
+import { sliceAddProduct } from "../features/products/productSlice";
+// import apiRequest from "../services/apiServices";
 
 const AddProduct: React.FC = () => {
-    const [product, setProduct] = useState<Partial<ProductDetail>>({
+    const navigate = useNavigate();
+        const dispatch = useDispatch<AppDispatch>();
+    const [product, setProduct] = useState<any>({
         title: "",
         description: "",
         price: 0,
@@ -14,24 +20,18 @@ const AddProduct: React.FC = () => {
     });
 
     // Handle form input change
-    const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+    const handleChange = (e: any) => {
         const { name, value } = e.target;
         setProduct({ ...product, [name]: value });
     };
 
-    // Handle form submission
+    const [addProduct] = useAddProductMutation();
+  
     const handleSubmit = async (e: React.FormEvent) => {
-        e.preventDefault();
-        const payload = {
-            ...product
-        }
-        try {
-           let apiRes = await apiRequest("products/add","POST",payload) 
-        } catch (error) {
-            
-        }
-        console.log("Product Data:", product);
-        alert("Product added successfully!");
+      e.preventDefault();
+    let apiRes:any =  await addProduct(product);
+    dispatch(sliceAddProduct(apiRes?.data))
+    navigate(`/product/list/1`)
     };
 
     return (

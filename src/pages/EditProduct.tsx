@@ -1,10 +1,14 @@
 import React, { useState } from "react";
 import { ProductDetail } from "../interface/Product";
-import { Link } from "react-router-dom";
-import apiRequest from "../services/apiServices";
+import { Link, useNavigate, useParams } from "react-router-dom";
+import { useDispatch } from "react-redux";
+import { AppDispatch } from "../store";
+import { API_BASE_URL, useUpdateProductMutation } from "../services/apiServices";
+import { updateProduct } from "../features/products/productSlice";
+// import apiRequest from "../services/apiServices";
 
 const EditProduct: React.FC = () => {
-    const [product, setProduct] = useState<Partial<ProductDetail>>({
+    const [product, setProduct] = useState<any>({
         title: "",
         description: "",
         price: 0,
@@ -13,33 +17,54 @@ const EditProduct: React.FC = () => {
         brand: "",
     });
 
-    // Handle form input change
-    const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+
+
+    const { id } = useParams()
+    const navigate = useNavigate();
+    const dispatch = useDispatch<AppDispatch>();
+    const [state, setState] = useState<any>({} as ProductDetail)
+    const [loading, setLoading] = useState(false)
+    const initDetails = async () => {
+        try {
+            setLoading(true)
+            let apiRes = await fetch(`${API_BASE_URL}products/${Number(id)}`)
+            let result = await apiRes.json()
+            setProduct(result)
+        } catch (error) {
+
+        } finally {
+            setLoading(false)
+        }
+    }
+
+
+    const handleChange = (e: any) => {
         const { name, value } = e.target;
         setProduct({ ...product, [name]: value });
     };
 
-    // Handle form submission
+    const [editProduct] = useUpdateProductMutation();
+
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
-        const payload = {
-            ...product
-        }
         try {
-           let apiRes = await apiRequest("products/add","POST",payload) 
-        } catch (error) {
-            
+            let apiRes: any = await editProduct(product);
+            // dispatch(updateProduct(apiRes?.data))
+            navigate(`/product/${id}/details`)
+        } catch (error:any) {
+            alert(JSON.stringify(error?.message))
         }
-        console.log("Product Data:", product);
-        alert("Product added successfully!");
     };
 
+    React.useEffect(() => {
+        initDetails()
+    }, [id])
     return (
         <section>
             <div className="container">
                 <div className="card p-4 rounded-4">
                     <div className="d-flex justify-content-between align-items-center">
-                        <h3 className='m-0'>Add Product</h3>
+                        <h3 className='m-0'>Edit Product</h3>
                         <Link to={`/product/list/1`}><button className='btn btn-primary'>Back</button></Link>
                     </div>
                 </div>
@@ -75,7 +100,7 @@ const EditProduct: React.FC = () => {
                             <input placeholder="Enter Discount" type="number" className="form-control p-2" name="discountPercentage" value={product.discountPercentage} onChange={handleChange} required />
                         </div>
                         <div className="col-12 mt-5">
-                            <button type="submit" className="btn btn-primary">Add Product</button>
+                            <button type="submit" className="btn btn-primary">Update</button>
                         </div>
                     </form>
                 </div>

@@ -1,24 +1,23 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
-import { ProductDetail } from "../interface/Product";
-export const API_BASE_URL = 'https://dummyjson.com/'
+import { API_BASE_URL } from "./apiServices";
 
-export interface Product extends ProductDetail {
+export interface Product {
   id: number;
   name: string;
 }
 
-export const apiServices = createApi({
-  reducerPath: "api",
-  baseQuery: fetchBaseQuery({ baseUrl: API_BASE_URL }),
+export const productApi = createApi({
+  reducerPath: "productApi",
+  baseQuery: fetchBaseQuery({ baseUrl: `${API_BASE_URL}products` }),
   tagTypes: ["Product"],
   endpoints: (builder) => ({
     getProducts: builder.query<Product[], void>({
       query: () => "",
       providesTags: ["Product"],
     }),
-    addProduct: builder.mutation<Product, { title: string }>({
+    addProduct: builder.mutation<Product, { name: string }>({
       query: (newProduct) => ({
-        url: "/products/add",
+        url: "",
         method: "POST",
         body: newProduct,
       }),
@@ -26,15 +25,15 @@ export const apiServices = createApi({
     }),
     updateProduct: builder.mutation<Product, Product>({
       query: (updatedProduct) => ({
-        url: `/products/${updatedProduct.id}`,
+        url: `/${updatedProduct.id}`,
         method: "PUT",
-        body: JSON.stringify(updatedProduct),
+        body: updatedProduct,
       }),
       invalidatesTags: ["Product"],
     }),
     deleteProduct: builder.mutation<{ success: boolean }, number>({
       query: (id) => ({
-        url: `/products/${id}`,
+        url: `/${id}`,
         method: "DELETE",
       }),
       invalidatesTags: ["Product"],
@@ -47,4 +46,4 @@ export const {
   useAddProductMutation,
   useUpdateProductMutation,
   useDeleteProductMutation,
-} = apiServices;
+} = productApi;

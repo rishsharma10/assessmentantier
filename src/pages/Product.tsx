@@ -1,25 +1,34 @@
 import React, { useState } from 'react'
-import apiRequest from '../services/apiServices'
-import { Link } from 'react-router-dom'
+// import apiRequest from '../services/apiServices'
+import { Link, useNavigate } from 'react-router-dom'
 import { ProductDetail } from '../interface/Product'
 import ProductCard from '../components/ProductCard'
+import { useGetProductsQuery } from '../services/apiServices'
+import { useSelector } from 'react-redux'
+import { AppDispatch, RootState } from '../store'
+import { useDispatch } from 'react-redux'
+import { fetchProducts } from '../features/products/productSlice'
 
 const Product = () => {
+   
+    const { error, products: data }: any = useSelector((state: RootState) => state.product);
+    const { userInfo } = useSelector((state: RootState) => state.auth);
+    const navigate = useNavigate();
+    const dispatch = useDispatch<AppDispatch>();
 
-    const [state, setState] = useState([])
     const initData = async () => {
-        try {
-            let apiRes:any = await apiRequest(`products`, "GET")
-            setState(apiRes?.products)
-        } catch (error) {
+        dispatch(fetchProducts());
+    };
 
-        }
+    if (!userInfo?.accessToken) {
+        navigate("/login")
     }
 
     React.useEffect(() => {
         initData()
     }, [])
-
+    
+   
     return (
         <section>
             <div className="container">
@@ -29,9 +38,10 @@ const Product = () => {
                         <Link to={`/product/add`}><button className='btn btn-primary'>Add Product</button></Link>
                     </div>
                 </div>
+                {error ? <span>Failed to fetch data</span> :
                 <div className="row mt-4">
-                    {Array.isArray(state) && state.map((res:ProductDetail,index:number) => <ProductCard {...res} key={res.id}/>)}
-                </div>
+                    {Array.isArray(data?.products) && data?.products.map((res:ProductDetail,index:number) => <ProductCard {...res} key={res.id}/>)}
+                </div>}
             </div>
         </section>
     )

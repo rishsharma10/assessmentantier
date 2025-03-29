@@ -1,6 +1,6 @@
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import { Provider } from "react-redux";
-// import store from "./store";
+import {store} from "../src/store";
 import { lazy } from "react";
 const ProductDetails = lazy(() => import("./pages/ProductDetails"));
 const AddProduct = lazy(() => import("./pages/AddProduct"));
@@ -15,7 +15,7 @@ const Dashboard = lazy(() => import("./pages/Dashboard"));
 // import { PrivateRoute, PublicRoute } from "./routes";
 
 const App = () => (
-  // <Provider store={store}>
+  <Provider store={store}>
     <Router>
       <Routes>
         {/* <Route element={<PublicRoute />}> */}
@@ -30,7 +30,7 @@ const App = () => (
           <Route path="/product/:id/edit" element={<SidebarLayout><EditProduct /></SidebarLayout>} />
       </Routes>
     </Router>
-  // </Provider>
+   </Provider>
 );
 
 export default App;

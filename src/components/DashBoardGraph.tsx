@@ -1,3 +1,4 @@
+import React from 'react';
 import {Area, XAxis, YAxis, Tooltip, ResponsiveContainer, CartesianGrid, AreaChart } from 'recharts';
 
 const DashBoardGraph = ({ data }: any) => {
@@ -23,4 +24,4 @@ const DashBoardGraph = ({ data }: any) => {
         </AreaChart>
     </ResponsiveContainer>
 }
-export default DashBoardGraph;
+export default React.memo(DashBoardGraph);
