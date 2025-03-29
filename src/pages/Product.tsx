@@ -18,9 +18,7 @@ const Product = () => {
         if (!userInfo?.accessToken) {
             navigate("/login");
         }
-        else if (data.length === 0) {
-            dispatch(fetchProducts());
-        }
+        dispatch(fetchProducts());
     }, [dispatch, data.length, userInfo, navigate]);
 
     return (
